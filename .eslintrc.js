@@ -16,7 +16,6 @@ module.exports = {
       {
         endOfLine: 'auto',
         singleQuote: true,
-        parser: 'flow',
       },
     ],
   },

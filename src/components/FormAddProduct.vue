@@ -2,12 +2,12 @@
   <section class="Product">
     <h1 class="Product__title">Добавление товара</h1>
 
-    <form class="Product__form" @submit.prevent>
+    <form class="Product__form">
       <label class="Product__label" for="productTitle"> Наименование товара </label>
       <input id="productTitle" class="Product__input" type="text" required placeholder="Введите наименование товара" />
 
       <label class="Product__label" for="description"> Описание товара </label>
-      <textarea id="description" class="Product__input" required placeholder="Введите описание товара" />
+      <textarea id="description" class="Product__input" placeholder="Введите описание товара" />
 
       <label class="Product__label" for="picture"> Ссылка на изображение товара </label>
       <input id="picture" class="Product__input" type="text" required placeholder="Введите ссылку" />
@@ -65,6 +65,7 @@
     border-radius: 4px;
     font-size: 12px;
     line-height: 15px;
+    transition: all 0.2s ease-in-out;
 
     color: $grey-01;
 
@@ -73,6 +74,14 @@
       line-height: 15px;
       text-align: left;
       color: $grey-03;
+    }
+
+    &:hover {
+      box-shadow: 0px 2px 5px rgba(5, 163, 236, 0.986);
+    }
+
+    &:focus {
+      outline: 1px solid rgba(5, 163, 236, 0.986);
     }
   }
 
