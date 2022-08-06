@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'Source';
+  src: url('./assets/fonts/SourceSansProRegular.woff') format('woff'),
+    url('./assets/fonts/SourceSansProRegular.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Source';
+  src: url('./assets/fonts/SourceSansProItalic.woff') format('woff'),
+    url('./assets/fonts/SourceSansProItalic.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+}
+
+html {
+  font-family: Source, sans-serif;
+  font-style: normal;
+  background-color: #e5e5e5;
+}
+
+* {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
