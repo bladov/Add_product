@@ -14,7 +14,7 @@ import ProductList from './components/ProductList.vue';
 .container {
   margin: 0 auto;
   padding: 0 32px;
-  max-width: 1072px;
+  max-width: 1504px;
   display: flex;
   column-gap: 16px;
 }

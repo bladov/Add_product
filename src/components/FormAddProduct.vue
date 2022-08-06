@@ -35,6 +35,10 @@
     font-weight: 600;
     font-size: 28px;
     line-height: 35px;
+
+    @media (max-width: 868px) {
+      font-size: 18px;
+    }
   }
 
   &__form {
@@ -106,7 +110,6 @@
     &:hover {
       background: rgb(53, 177, 226);
       color: black;
-      // background: -webkit-gradient(radial, 100 75, 100, 100 75, 0, from(rgba(0, 0, 0, 0.7)), to(rgba(0, 0, 0, 0.4)));
     }
   }
 }
