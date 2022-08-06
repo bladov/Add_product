@@ -26,6 +26,7 @@
 @import '@/scss/variables';
 
 .Product {
+  margin: 0;
   padding-top: 32px;
 
   &__title {
