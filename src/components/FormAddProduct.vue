@@ -2,25 +2,75 @@
   <section class="Product">
     <h1 class="Product__title">Добавление товара</h1>
 
-    <form class="Product__form">
+    <form class="Product__form" @submit.prevent>
       <label class="Product__label" for="productTitle"> Наименование товара </label>
-      <input id="productTitle" class="Product__input" type="text" required placeholder="Введите наименование товара" />
+      <input
+        v-model="product.title"
+        id="productTitle"
+        class="Product__input"
+        type="text"
+        required
+        placeholder="Введите наименование товара"
+      />
 
       <label class="Product__label" for="description"> Описание товара </label>
-      <textarea id="description" class="Product__input" placeholder="Введите описание товара" />
-
+      <textarea
+        v-model="product.description"
+        id="description"
+        class="Product__input"
+        placeholder="Введите описание товара"
+      />
       <label class="Product__label" for="picture"> Ссылка на изображение товара </label>
-      <input id="picture" class="Product__input" type="text" required placeholder="Введите ссылку" />
+      <input
+        v-model="product.url"
+        id="picture"
+        class="Product__input"
+        type="text"
+        required
+        placeholder="Введите ссылку"
+      />
 
       <label class="Product__label" for="price"> Цена товара </label>
-      <input id="price" class="Product__input" type="text" required placeholder="Введите цену" />
+      <input
+        v-model="product.price"
+        id="price"
+        class="Product__input"
+        type="text"
+        required
+        placeholder="Введите цену"
+      />
 
-      <button class="Product__btn" type="submit">Добавить товар</button>
+      <button @click="addProduct" class="Product__btn" type="submit">Добавить товар</button>
     </form>
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { reactive } from 'vue';
+
+// const productTitle = ref('');
+// const productDescription = ref('');
+// const productUrl = ref('');
+// const productPrice = ref('');
+
+const product = reactive({
+  title: '',
+  description: '',
+  url: '',
+  price: '',
+});
+
+const emit = defineEmits(['addProduct']);
+
+const addProduct = () => {
+  emit('addProduct', { ...product });
+
+  product.title = '';
+  product.description = '';
+  product.url = '';
+  product.price = '';
+};
+</script>
 
 <style scoped lang="scss">
 @import '@/scss/variables';

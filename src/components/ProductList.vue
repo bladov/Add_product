@@ -8,7 +8,13 @@
     </select>
 
     <ul class="list">
-      <li v-for="n in 8" :key="n" class="item" @mousemove="hover = true" @mouseleave="hover = false">
+      <li
+        v-for="(product, index) in productList"
+        :key="index"
+        class="item"
+        @mousemove="hover = true"
+        @mouseleave="hover = false"
+      >
         <div class="bin" v-if="hover">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_12_141)">
@@ -38,22 +44,61 @@
         </div>
         <img class="picture" src="@/assets/camera2.png" alt="camera" />
         <div class="description">
-          <h2 class="title">Наименование товара</h2>
+          <h2 class="title">{{ product.title }}</h2>
           <p class="text">
-            Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в
-            несколько строк
+            {{ product.description }}
           </p>
-          <div class="price">10 000 руб.</div>
+          <div class="price">{{ product.price }}</div>
         </div>
       </li>
     </ul>
   </section>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<!-- <script setup>
+import { ref, watch } from 'vue';
 
 const hover = ref(true);
+
+const props = defineProps({
+  product: Object,
+});
+
+const giveProduct = () => {
+  console.log(productList);
+};
+
+const productList = [];
+
+watch(
+  () => props.product,
+  () => {
+    productList.push(1);
+    console.log(2);
+  },
+);
+</script> -->
+
+<script>
+export default {
+  props: {
+    product: Object,
+  },
+
+  data() {
+    return {
+      productList: [],
+    };
+  },
+
+  methods: {},
+
+  watch: {
+    product(val) {
+      this.productList.push(val);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
