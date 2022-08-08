@@ -35,7 +35,7 @@
         v-model="product.price"
         id="price"
         class="Product__input"
-        type="text"
+        type="number"
         required
         placeholder="Введите цену"
       />
@@ -56,11 +56,17 @@
 <script setup>
 import { computed, reactive } from 'vue';
 
+let indexOfLastStorage = localStorage.length - 1;
+let lastId = +localStorage.key(indexOfLastStorage) ?? 0;
+console.log(localStorage.key(0));
+console.log(localStorage.length);
+
 const product = reactive({
-  title: '',
-  description: '',
-  url: '',
-  price: '',
+  title: null,
+  description: null,
+  url: null,
+  price: null,
+  id: lastId,
 });
 
 const emit = defineEmits(['addProduct']);
@@ -70,9 +76,14 @@ const activeBtn = computed(() => {
 });
 
 const addProduct = () => {
+  product.id += 1;
+  console.log(typeof product.id);
   emit('addProduct', { ...product });
 
   for (let key in product) {
+    if (key === 'id') {
+      continue;
+    }
     product[key] = '';
   }
 };

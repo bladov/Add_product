@@ -1,21 +1,21 @@
 <template>
   <section class="Product-list">
-    <select name="list" id="" class="filter">
-      <option value="1">По умолчанию</option>
-      <option value="1">По уменьшанию</option>
-      <option value="3">По возрастанию</option>
-      <option value="3">По наименованию</option>
+    <select v-model="filter" name="list" id="" class="filter">
+      <option value="defualt">По умолчанию</option>
+      <option value="min">По уменьшанию</option>
+      <option value="max">По возрастанию</option>
+      <option value="name">По наименованию</option>
     </select>
 
     <ul class="list">
       <li
-        v-for="(product, index) in productList"
+        v-for="(product, index) in feltredProducts"
         :key="index"
         class="item"
         :class="{ delete: product.hover }"
         @mousemove="addHover(index)"
         @mouseleave="deketeHover(index)"
-        @click="deleteProduct(index)"
+        @click="deleteProduct(index, product)"
       >
         <div class="bin" v-if="product.hover">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +50,7 @@
           <p class="text">
             {{ product.description }}
           </p>
-          <div class="price">{{ product.price }}</div>
+          <div class="price">{{ product.price }} руб.</div>
         </div>
       </li>
     </ul>
@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import { cloneDeep } from 'lodash';
+
 export default {
   props: {
     product: Object,
@@ -66,12 +68,41 @@ export default {
   data() {
     return {
       productList: [],
+      filter: 'defualt',
     };
   },
 
   watch: {
     product(val) {
       this.productList.push(val);
+      localStorage.setItem(`${val.id}`, JSON.stringify(val));
+
+      console.log(JSON.parse(localStorage.getItem(val.id)));
+    },
+  },
+
+  created: function () {
+    let keys = Object.keys(localStorage);
+    for (let key of keys) {
+      const product = JSON.parse(localStorage.getItem(key));
+      this.productList.push(product);
+    }
+  },
+
+  computed: {
+    feltredProducts() {
+      const cloneProduct = cloneDeep(this.productList);
+      if (this.filter === 'max') {
+        return cloneProduct.sort((a, b) => +a.price - +b.price);
+      }
+      if (this.filter === 'min') {
+        return cloneProduct.sort((a, b) => +b.price - +a.price);
+      }
+
+      if (this.filter === 'name') {
+        return cloneProduct.sort((a, b) => +b.title.length - +a.title.length);
+      }
+      return this.productList;
     },
   },
 
@@ -83,7 +114,8 @@ export default {
       this.productList[index].hover = false;
     },
 
-    deleteProduct(index) {
+    deleteProduct(index, product) {
+      localStorage.removeItem(product.id);
       this.productList.splice(index, 1);
     },
   },
