@@ -40,18 +40,21 @@
         placeholder="Введите цену"
       />
 
-      <button @click="addProduct" class="Product__btn" type="submit">Добавить товар</button>
+      <button
+        @click="addProduct"
+        class="Product__btn"
+        :class="{ 'Product__btn-active': activeBtn }"
+        :disabled="!activeBtn"
+        type="submit"
+      >
+        Добавить товар
+      </button>
     </form>
   </section>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
-
-// const productTitle = ref('');
-// const productDescription = ref('');
-// const productUrl = ref('');
-// const productPrice = ref('');
+import { computed, reactive } from 'vue';
 
 const product = reactive({
   title: '',
@@ -62,13 +65,16 @@ const product = reactive({
 
 const emit = defineEmits(['addProduct']);
 
+const activeBtn = computed(() => {
+  return !!product.title && !!product.url && !!product.price;
+});
+
 const addProduct = () => {
   emit('addProduct', { ...product });
 
-  product.title = '';
-  product.description = '';
-  product.url = '';
-  product.price = '';
+  for (let key in product) {
+    product[key] = '';
+  }
 };
 </script>
 
@@ -157,9 +163,13 @@ const addProduct = () => {
     color: $grey-03;
     transition: all 0.2s ease-in-out;
 
-    &:hover {
-      background: rgb(53, 177, 226);
-      color: black;
+    &-active {
+      background: #7bae73;
+      color: #ffffff;
+
+      &:hover {
+        background: #4fe738;
+      }
     }
   }
 }

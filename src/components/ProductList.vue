@@ -12,10 +12,12 @@
         v-for="(product, index) in productList"
         :key="index"
         class="item"
-        @mousemove="hover = true"
-        @mouseleave="hover = false"
+        :class="{ delete: product.hover }"
+        @mousemove="addHover(index)"
+        @mouseleave="deketeHover(index)"
+        @click="deleteProduct(index)"
       >
-        <div class="bin" v-if="hover">
+        <div class="bin" v-if="product.hover">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_12_141)">
               <path
@@ -55,30 +57,6 @@
   </section>
 </template>
 
-<!-- <script setup>
-import { ref, watch } from 'vue';
-
-const hover = ref(true);
-
-const props = defineProps({
-  product: Object,
-});
-
-const giveProduct = () => {
-  console.log(productList);
-};
-
-const productList = [];
-
-watch(
-  () => props.product,
-  () => {
-    productList.push(1);
-    console.log(2);
-  },
-);
-</script> -->
-
 <script>
 export default {
   props: {
@@ -91,11 +69,22 @@ export default {
     };
   },
 
-  methods: {},
-
   watch: {
     product(val) {
       this.productList.push(val);
+    },
+  },
+
+  methods: {
+    addHover(index) {
+      this.productList[index].hover = true;
+    },
+    deketeHover(index) {
+      this.productList[index].hover = false;
+    },
+
+    deleteProduct(index) {
+      this.productList.splice(index, 1);
     },
   },
 };
@@ -156,6 +145,11 @@ export default {
   border-radius: 4px;
 }
 
+.delete {
+  cursor: pointer;
+  animation: deleted 0.5s;
+}
+
 .bin {
   position: absolute;
   text-align: center;
@@ -196,5 +190,23 @@ export default {
   line-height: 30px;
 
   color: $grey-01;
+}
+
+@keyframes deleted {
+  25% {
+    transform: rotateY(20deg);
+  }
+
+  50% {
+    transform: rotateY(0);
+  }
+
+  75% {
+    transform: rotateY(-20deg);
+  }
+
+  100% {
+    transform: rotateY(0);
+  }
 }
 </style>
