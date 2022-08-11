@@ -44,7 +44,7 @@
             </defs>
           </svg>
         </div>
-        <img class="picture" src="@/assets/camera2.png" alt="camera" />
+        <img class="picture" alt="product" :src="product.url ?? picture" />
         <div class="description">
           <h2 class="title">{{ product.title }}</h2>
           <p class="text">
@@ -76,13 +76,12 @@ export default {
     product(val) {
       this.productList.push(val);
       localStorage.setItem(`${val.id}`, JSON.stringify(val));
-
-      console.log(JSON.parse(localStorage.getItem(val.id)));
     },
   },
 
   created: function () {
     let keys = Object.keys(localStorage);
+
     for (let key of keys) {
       const product = JSON.parse(localStorage.getItem(key));
       this.productList.push(product);
@@ -104,6 +103,11 @@ export default {
       }
       return this.productList;
     },
+
+    picture() {
+      let img = require('@/assets/camera2.png');
+      return img;
+    },
   },
 
   methods: {
@@ -115,7 +119,7 @@ export default {
     },
 
     deleteProduct(index, product) {
-      localStorage.removeItem(product.id);
+      localStorage.removeItem(+product.id);
       this.productList.splice(index, 1);
     },
   },
@@ -169,6 +173,8 @@ export default {
 }
 
 .item {
+  // flex: 0 1 30%;
+  align-self: flex-start;
   position: relative;
   margin: 0;
   max-width: 332px;
@@ -197,7 +203,9 @@ export default {
 .picture {
   display: block;
   max-width: 100%;
+  max-height: 100%;
   margin-bottom: 16px;
+  object-fit: contain;
 }
 
 .description {

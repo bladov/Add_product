@@ -3,7 +3,7 @@
     <h1 class="Product__title">Добавление товара</h1>
 
     <form class="Product__form" @submit.prevent>
-      <label class="Product__label" for="productTitle"> Наименование товара </label>
+      <label class="Product__label required" for="productTitle"> Наименование товара </label>
       <input
         v-model="product.title"
         id="productTitle"
@@ -20,17 +20,17 @@
         class="Product__input"
         placeholder="Введите описание товара"
       />
-      <label class="Product__label" for="picture"> Ссылка на изображение товара </label>
+      <label class="Product__label required" for="picture"> Ссылка на изображение товара </label>
       <input
         v-model="product.url"
+        required
         id="picture"
         class="Product__input"
         type="text"
-        required
         placeholder="Введите ссылку"
       />
 
-      <label class="Product__label" for="price"> Цена товара </label>
+      <label class="Product__label required" for="price"> Цена товара </label>
       <input
         v-model="product.price"
         id="price"
@@ -56,10 +56,12 @@
 <script setup>
 import { computed, reactive } from 'vue';
 
-let indexOfLastStorage = localStorage.length - 1;
-let lastId = +localStorage.key(indexOfLastStorage) ?? 0;
-console.log(localStorage.key(0));
-console.log(localStorage.length);
+const keys = Object.keys(localStorage);
+let lastId = Math.max(...keys);
+
+if (!isFinite(lastId)) {
+  lastId = 0;
+}
 
 const product = reactive({
   title: null,
@@ -72,12 +74,16 @@ const product = reactive({
 const emit = defineEmits(['addProduct']);
 
 const activeBtn = computed(() => {
-  return !!product.title && !!product.url && !!product.price;
+  return !!product.title && !!product.price && !!product.url;
 });
 
 const addProduct = () => {
   product.id += 1;
-  console.log(typeof product.id);
+
+  if (!product.url.startsWith('https')) {
+    product.url = null;
+  }
+
   emit('addProduct', { ...product });
 
   for (let key in product) {
@@ -194,7 +200,7 @@ label {
   position: relative;
 }
 
-label:not(:nth-child(3))::before {
+.required::before {
   content: '';
   display: block;
   position: absolute;
