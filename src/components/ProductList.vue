@@ -44,7 +44,7 @@
             </defs>
           </svg>
         </div>
-        <img class="picture" alt="product" :src="product.url ?? picture" />
+        <img class="picture" alt="product" :src="product.url ?? picture" @error="error(product)" />
         <div class="description">
           <h2 class="title">{{ product.title }}</h2>
           <p class="text">
@@ -121,6 +121,11 @@ export default {
     deleteProduct(index, product) {
       localStorage.removeItem(+product.id);
       this.productList.splice(index, 1);
+    },
+
+    error(prosuct) {
+      let img = require('@/assets/camera2.png');
+      prosuct.url = img;
     },
   },
 };
