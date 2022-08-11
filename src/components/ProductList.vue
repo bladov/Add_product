@@ -222,12 +222,14 @@ export default {
   font-size: 20px;
   line-height: 25px;
   color: $grey-01;
+  overflow: auto;
 }
 .text {
   margin-bottom: 32px;
   font-size: 16px;
   line-height: 20px;
   color: $grey-01;
+  overflow: auto;
 }
 .price {
   font-weight: 600;
